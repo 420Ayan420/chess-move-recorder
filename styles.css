@@ -442,4 +442,35 @@ body.black-turn .board-container::before {
     font-weight: 500;
     min-width: 80px;
     text-align: center;
+}
+
+/* Add responsive layout for landscape mode on mobile */
+@media screen and (orientation: landscape) and (max-width: 1024px) {
+  body {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 10px;
+  }
+  
+  .game-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    gap: 20px;
+  }
+  
+  .board {
+    flex: 0 0 auto;
+    margin-right: 20px;
+  }
+  
+  .control-panel {
+    flex: 0 0 auto;
+    margin-top: 0;
+  }
 } 
