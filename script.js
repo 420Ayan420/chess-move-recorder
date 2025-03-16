@@ -913,20 +913,32 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
     
-    // Initialize the board
-    initializeBoard();
-    
-    // Handle window resize to update arrow positions
-    window.addEventListener('resize', () => {
-        updateArrows();
-    });
-    
-    // Handle orientation changes
-    window.addEventListener('orientationchange', () => {
-        // Give time for the browser to adjust
-        setTimeout(() => {
-            // Redraw arrows after orientation change
-            updateArrows();
-        }, 300);
+    // Add this function to your existing code
+    function handleOrientationChange() {
+        // Recalculate board size if needed
+        const gameContainer = document.querySelector('.game-container');
+        const chessboard = document.querySelector('.chessboard');
+        
+        if (window.matchMedia("(max-width: 900px) and (orientation: landscape)").matches) {
+            // In landscape mode on mobile
+            const containerHeight = gameContainer.clientHeight;
+            const boardSize = Math.min(containerHeight * 0.9, gameContainer.clientWidth * 0.9);
+            chessboard.style.width = `${boardSize}px`;
+            chessboard.style.height = `${boardSize}px`;
+        } else {
+            // Reset to default if not in landscape
+            chessboard.style.width = '';
+            chessboard.style.height = '';
+        }
+    }
+
+    // Add event listeners for orientation changes
+    window.addEventListener('resize', handleOrientationChange);
+    window.addEventListener('orientationchange', handleOrientationChange);
+
+    // Call once on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        // ... existing initialization code ...
+        handleOrientationChange();
     });
 }); 
