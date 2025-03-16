@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demo 2 - Voice Controlled Chess Recorder</title>
+    <title>Demo 3 - Trigger Controlled Chess Moves Recording</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <style>
         .back-button {
             padding: 8px 15px;
-            background-color: #2ecc71;
+            background-color: #f1c40f;
             color: white;
             text-decoration: none;
             border-radius: 5px;
@@ -21,7 +21,7 @@
         }
         
         .back-button:hover {
-            background-color: #27ae60;
+            background-color: #f39c12;
         }
 
         .voice-controls {
@@ -37,24 +37,21 @@
         }
 
         .voice-button {
-            padding: 12px 25px;
-            background-color: #2ecc71;
+            padding: 12px 15px;
+            background-color: #f1c40f;
             color: white;
             border: none;
             border-radius: 5px;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
             transition: all 0.3s;
             width: 100%;
-            justify-content: center;
+            text-align: center;
         }
 
         .voice-button:hover {
-            background-color: #27ae60;
+            background-color: #f39c12;
         }
 
         .voice-button.listening {
@@ -96,36 +93,67 @@
 
         .voice-commands {
             background-color: rgba(255, 255, 255, 0.9);
-            padding: 8px;
+            padding: 12px;
             border-radius: 5px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             width: 100%;
         }
 
         .voice-commands h3 {
-            margin-bottom: 3px;
-            color: #2ecc71;
+            margin-bottom: 8px;
+            color: #f1c40f;
             text-align: center;
-            font-size: 15px;
+            font-size: 16px;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 5px;
         }
 
         .voice-commands p {
-            margin-bottom: 3px;
+            margin-bottom: 8px;
             font-size: 13px;
-            line-height: 1.2;
+            line-height: 1.4;
+            color: #333;
         }
 
-        .voice-commands ul {
-            padding-left: 15px;
+        .voice-commands ol, .voice-commands ul {
+            padding-left: 20px;
             font-size: 13px;
-            margin-top: 3px;
-            margin-bottom: 3px;
+            margin: 8px 0;
         }
 
         .voice-commands li {
-            margin-bottom: 2px;
-            line-height: 1.2;
+            margin-bottom: 6px;
+            line-height: 1.4;
+        }
+        
+        .voice-commands .step-number {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-color: #f1c40f;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 20px;
+            margin-right: 8px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        
+        .voice-commands .command-section {
+            margin-top: 12px;
+            padding-top: 8px;
+            border-top: 1px dashed #e0e0e0;
+        }
+        
+        .voice-commands .command-label {
+            display: inline-block;
+            background-color: #f1f1f1;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+            margin: 0 2px;
         }
         
         .permission-overlay {
@@ -158,7 +186,7 @@
         }
         
         .permission-box h3 {
-            color: #2ecc71;
+            color: #f1c40f;
             margin-bottom: 15px;
         }
         
@@ -169,7 +197,7 @@
         
         .permission-box button {
             padding: 10px 20px;
-            background-color: #2ecc71;
+            background-color: #f1c40f;
             color: white;
             border: none;
             border-radius: 5px;
@@ -178,7 +206,12 @@
         }
         
         .permission-box button:hover {
-            background-color: #27ae60;
+            background-color: #f39c12;
+        }
+
+        /* Indicator for active voice recognition */
+        body.voice-active {
+            border: 2px solid #f1c40f;
         }
 
         @media (max-width: 480px) {
@@ -191,6 +224,43 @@
                 width: 16px;
                 height: 16px;
             }
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .button-group .voice-button {
+            width: 100%;
+        }
+        
+        .pause-button {
+            background-color: #f39c12;
+        }
+        
+        .pause-button:hover {
+            background-color: #e67e22;
+        }
+        
+        .pause-button.paused {
+            background-color: #3498db;
+        }
+        
+        .pause-button.paused:hover {
+            background-color: #2980b9;
+        }
+        
+        .decibel-meter-container.paused {
+            opacity: 0.5;
+            background-color: #ddd;
+        }
+        
+        .decibel-meter-container.paused .decibel-meter {
+            background: #aaa;
         }
     </style>
 </head>
@@ -213,25 +283,36 @@
             </div>
             <div class="side-panel">
                 <div class="voice-controls">
-                    <button id="voice-btn" class="voice-button">
-                        <svg class="mic-icon" viewBox="0 0 24 24">
-                            <path d="M12,2A3,3 0 0,1 15,5V11A3,3 0 0,1 12,14A3,3 0 0,1 9,11V5A3,3 0 0,1 12,2M19,11C19,14.53 16.39,17.44 13,17.93V21H11V17.93C7.61,17.44 5,14.53 5,11H7A5,5 0 0,0 12,16A5,5 0 0,0 17,11H19Z" />
-                        </svg>
-                        Start Voice Command
-                    </button>
-                    <div id="voice-status" class="voice-status">Click the button to start voice recognition</div>
+                    <div class="button-group">
+                        <button id="voice-btn" class="voice-button">
+                            Change Trigger Word
+                        </button>
+                        <button id="pause-btn" class="voice-button pause-button">
+                            Pause Recognition
+                        </button>
+                    </div>
+                    <div class="decibel-meter-container" id="decibel-container">
+                        <div id="decibel-meter" class="decibel-meter"></div>
+                        <div id="decibel-threshold" class="decibel-threshold" style="left: 70%;"></div>
+                    </div>
+                    <div id="voice-status" class="voice-status">Voice recognition is always on. Say "mark" to start a move.</div>
                 </div>
                 
                 <div class="voice-commands">
-                    <h3>Voice Commands</h3>
-                    <p>Speak chess moves using algebraic notation:</p>
-                    <ul>
-                        <li><strong>Simple move:</strong> "e2e4" or "e2 to e4"</li>
-                        <li><strong>Capture:</strong> "e4 takes d5"</li>
-                        <li><strong>Castle:</strong> "castle kingside" or "O-O"</li>
-                        <li><strong>Undo:</strong> "undo" or "undo move"</li>
-                        <li><strong>Reset:</strong> "reset" or "reset game"</li>
-                    </ul>
+                    <h3>Trigger-Based Voice Commands</h3>
+                    <p>Voice recognition is always on. Use the trigger word followed by your move:</p>
+                    <ol>
+                        <li><span class="step-number">1</span> Say trigger word <span class="command-label">mark</span></li>
+                        <li><span class="step-number">2</span> Say your move (e.g., <span class="command-label">e2e4</span> or <span class="command-label">castle kingside</span>)</li>
+                        <li><span class="step-number">3</span> Say trigger word again to confirm and execute the move</li>
+                    </ol>
+                    <div class="command-section">
+                        <p><strong>Direct commands</strong> (no trigger needed):</p>
+                        <ul>
+                            <li><span class="command-label">reset</span> or <span class="command-label">reset game</span></li>
+                            <li><span class="command-label">undo</span> or <span class="command-label">undo move</span></li>
+                        </ul>
+                    </div>
                 </div>
                 
                 <a href="../index.html" class="back-button">Back to Demos</a>
@@ -255,7 +336,7 @@
     <div id="permission-overlay" class="permission-overlay">
         <div class="permission-box">
             <h3>Microphone Access Required</h3>
-            <p>This demo needs permission to use your microphone for voice commands. When prompted by your browser, please click "Allow" to enable voice recognition.</p>
+            <p>This demo needs continuous access to your microphone for voice commands. When prompted by your browser, please click "Allow" to enable voice recognition.</p>
             <p>If you've denied permission, you'll need to reset it in your browser settings.</p>
             <button id="permission-ok">Got it</button>
         </div>

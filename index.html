@@ -51,6 +51,7 @@
             transition: transform 0.3s, box-shadow 0.3s;
             position: relative;
             overflow: hidden;
+            padding: 20px;
         }
         
         .demo-box:hover {
@@ -68,6 +69,9 @@
             text-align: center;
             padding: 0 20px;
             z-index: 2;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #555;
         }
         
         .demo-box::before {
@@ -112,14 +116,17 @@
     <div class="demos-container">
         <a href="demo1/index.html" class="demo-box demo1">
             <h2>Demo 1</h2>
+            <p>Basic chess recorder with drag-and-drop interface. Move pieces manually and track game history.</p>
         </a>
         
         <a href="demo2/index.html" class="demo-box demo2">
             <h2>Demo 2</h2>
+            <p>Voice-controlled chess recorder. Press the button and speak your moves using algebraic notation.</p>
         </a>
         
-        <a href="#" class="demo-box demo3">
+        <a href="demo3/index.html" class="demo-box demo3">
             <h2>Demo 3</h2>
+            <p>Trigger-based voice control. Always-on recognition with a trigger word for faster move recording.</p>
         </a>
     </div>
 </body>
