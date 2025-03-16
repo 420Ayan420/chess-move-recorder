@@ -119,6 +119,10 @@ body {
     justify-content: center;
     align-items: center;
     font-size: calc(min(calc(100vh - 80px), 500px) / 8 * 0.6);
+    /* Prevent iOS from displaying chess pieces as emojis */
+    font-family: "Arial Unicode MS", "Segoe UI Symbol", sans-serif;
+    font-variation-settings: 'EMOJI' 0;
+    -webkit-font-feature-settings: 'liga' 0;
 }
 
 .piece.dragging {
