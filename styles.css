@@ -1,0 +1,445 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    position: relative;
+}
+
+.container {
+    max-width: 100%;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.landscape-mode .game-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: center;
+    align-items: flex-start;
+    max-width: 100vw;
+}
+
+.board-container {
+    position: relative;
+    width: 100%;
+    max-width: min(calc(100vh - 80px), 500px);
+    aspect-ratio: 1/1;
+}
+
+.chessboard {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    border: 2px solid #333;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 1;
+}
+
+.coordinates {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.files {
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.ranks {
+    position: absolute;
+    top: 0;
+    left: -20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.files span, .ranks span {
+    font-size: 12px;
+    color: #333;
+}
+
+.arrows {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 3;
+}
+
+.square {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.white {
+    background-color: #f0d9b5;
+}
+
+.black {
+    background-color: #b58863;
+}
+
+.piece {
+    width: 80%;
+    height: 80%;
+    cursor: grab;
+    user-select: none;
+    position: absolute;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: calc(min(calc(100vh - 80px), 500px) / 8 * 0.6);
+}
+
+.piece.dragging {
+    opacity: 0.6;
+}
+
+.highlight {
+    background-color: rgba(255, 255, 0, 0.4);
+}
+
+.side-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 250px;
+    max-width: 30%;
+}
+
+.move-history {
+    width: 100%;
+    height: calc(100vh - 250px);
+    max-height: 500px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+}
+
+.move-history h2 {
+    text-align: center;
+    padding: 10px;
+    background-color: #333;
+    color: white;
+    font-size: 18px;
+    border-radius: 5px 5px 0 0;
+    flex-shrink: 0;
+}
+
+.moves {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.move-pair {
+    display: flex;
+    margin-bottom: 8px;
+}
+
+.move-number {
+    font-weight: bold;
+    margin-right: 10px;
+    min-width: 20px;
+}
+
+.move {
+    flex: 1;
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin-right: 5px;
+    font-weight: 500;
+}
+
+.white-move {
+    background-color: #e6f0ff;
+    color: #333;
+    border: 1px solid #b3d1ff;
+}
+
+.black-move {
+    background-color: #333333;
+    color: #ffffff;
+    border: 1px solid #666666;
+}
+
+.capture-move {
+    background-color: #ffebee;
+    color: #d32f2f;
+    border: 1px solid #ffcdd2;
+}
+
+.white-move.capture-move {
+    background-color: #ffebee;
+    color: #d32f2f;
+    border: 1px solid #ffcdd2;
+}
+
+.black-move.capture-move {
+    background-color: #b71c1c;
+    color: #ffffff;
+    border: 1px solid #d32f2f;
+}
+
+.castling-move {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #c8e6c9;
+}
+
+.white-move.castling-move {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #c8e6c9;
+}
+
+.black-move.castling-move {
+    background-color: #1b5e20;
+    color: #ffffff;
+    border: 1px solid #2e7d32;
+}
+
+.promotion-move {
+    background-color: #fff8e1;
+    color: #ff8f00;
+    border: 1px solid #ffecb3;
+}
+
+.white-move.promotion-move {
+    background-color: #fff8e1;
+    color: #ff8f00;
+    border: 1px solid #ffecb3;
+}
+
+.black-move.promotion-move {
+    background-color: #ff6f00;
+    color: #ffffff;
+    border: 1px solid #ff8f00;
+}
+
+/* Combined styles (e.g., castling + capture) */
+.castling-move.capture-move {
+    background: linear-gradient(135deg, #e8f5e9 50%, #ffebee 50%);
+    color: #d32f2f;
+}
+
+.promotion-move.capture-move {
+    background: linear-gradient(135deg, #fff8e1 50%, #ffebee 50%);
+    color: #d32f2f;
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+button {
+    padding: 10px 15px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+.feedback {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.feedback.valid {
+    background-color: rgba(0, 255, 0, 0);
+}
+
+.feedback.invalid {
+    background-color: rgba(255, 0, 0, 0.671);
+}
+
+/* Media query for portrait mode (mobile) */
+@media (max-width: 767px) or (orientation: portrait) {
+    .landscape-mode .game-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .board-container {
+        max-width: min(calc(100vw - 20px), 370px);
+    }
+    
+    .side-panel {
+        width: 100%;
+        max-width: min(calc(100vw - 20px), 370px);
+    }
+    
+    .move-history {
+        height: 200px;
+    }
+    
+    .controls {
+        flex-direction: row;
+        justify-content: center;
+    }
+    
+    .piece {
+        font-size: calc(min(calc(100vw - 20px), 370px) / 8 * 0.6);
+    }
+}
+
+/* Touch device improvements */
+@media (pointer: coarse) {
+    .piece {
+        font-size: calc(min(calc(100vh - 80px), 500px) / 8 * 0.7);
+    }
+    
+    @media (max-width: 767px) or (orientation: portrait) {
+        .piece {
+            font-size: calc(min(calc(100vw - 20px), 370px) / 8 * 0.7);
+        }
+    }
+}
+
+/* Landscape orientation specific styles */
+@media (orientation: landscape) {
+    body {
+        padding: 5px;
+    }
+    
+    .board-container {
+        margin: 0;
+    }
+}
+
+/* Turn indicator background colors */
+body.white-turn {
+    background-color: #f0f0f0;
+    transition: background-color 0.5s ease;
+}
+
+body.black-turn {
+    background-color: #292929;
+    transition: background-color 0.5s ease;
+}
+
+/* Add a subtle border to indicate current turn */
+body.white-turn .board-container::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    right: -8px;
+    bottom: -8px;
+    border: 3px solid #ffffff;
+    border-radius: 5px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+body.black-turn .board-container::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    right: -8px;
+    bottom: -8px;
+    border: 3px solid #000000;
+    border-radius: 5px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Export styles */
+.export-container {
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    width: 500px;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.export-container h2 {
+    text-align: center;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.export-container p {
+    text-align: center;
+    color: #666;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.export-moves {
+    background-color: white;
+    border-radius: 5px;
+    padding: 15px;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+}
+
+.export-move-entry {
+    display: flex;
+    margin-bottom: 8px;
+    align-items: center;
+}
+
+.export-move-number {
+    font-weight: bold;
+    margin-right: 10px;
+    min-width: 30px;
+}
+
+.export-move {
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin-right: 10px;
+    font-weight: 500;
+    min-width: 80px;
+    text-align: center;
+} 
