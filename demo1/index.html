@@ -8,17 +8,16 @@
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <style>
         .back-button {
-            position: fixed;
-            top: 10px;
-            left: 10px;
             padding: 8px 15px;
             background-color: #3498db;
             color: white;
             text-decoration: none;
             border-radius: 5px;
             font-weight: bold;
-            z-index: 100;
             transition: background-color 0.3s;
+            display: block;
+            text-align: center;
+            margin-bottom: 5px;
         }
         
         .back-button:hover {
@@ -27,7 +26,6 @@
     </style>
 </head>
 <body>
-    <a href="../index.html" class="back-button">Back to Demos</a>
     <div class="container landscape-mode">
         <div class="game-container">
             <div class="board-container">
@@ -45,6 +43,7 @@
                 <svg class="arrows" id="arrows"></svg>
             </div>
             <div class="side-panel">
+                <a href="../index.html" class="back-button">Back to Demos</a>
                 <div class="move-history">
                     <h2>Move History</h2>
                     <div class="moves" id="moves"></div>
