@@ -1,2 +1,2 @@
-# chess-move-recorder
+# chess-recorder
 for praxis II
