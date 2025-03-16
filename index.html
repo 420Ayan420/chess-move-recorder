@@ -3,29 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demo Selection</title>
-    <link rel="stylesheet" href="main-styles.css">
+    <title>Chess Move Recorder</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <h1>Demo Selection</h1>
-        
-        <div class="demo-grid">
-            <a href="index.html" class="demo-box">
-                <div class="demo-number">1</div>
-                <div class="demo-label">Current Demo</div>
-            </a>
-            
-            <div class="demo-box disabled">
-                <div class="demo-number">2</div>
-                <div class="demo-label">Coming Soon</div>
+    <div class="container landscape-mode">
+        <div class="game-container">
+            <div class="board-container">
+                <div class="chessboard" id="chessboard"></div>
+                <div class="coordinates">
+                    <div class="files">
+                        <span>a</span><span>b</span><span>c</span><span>d</span>
+                        <span>e</span><span>f</span><span>g</span><span>h</span>
+                    </div>
+                    <div class="ranks">
+                        <span>8</span><span>7</span><span>6</span><span>5</span>
+                        <span>4</span><span>3</span><span>2</span><span>1</span>
+                    </div>
+                </div>
+                <svg class="arrows" id="arrows"></svg>
             </div>
-            
-            <div class="demo-box disabled">
-                <div class="demo-number">3</div>
-                <div class="demo-label">Coming Soon</div>
+            <div class="side-panel">
+                <div class="move-history">
+                    <h2>Move History</h2>
+                    <div class="moves" id="moves"></div>
+                </div>
+                <div class="controls">
+                    <button id="reset-btn">Reset Game</button>
+                    <button id="undo-btn">Undo Last Move</button>
+                    <button id="export-btn">Export Moves</button>
+                </div>
             </div>
         </div>
     </div>
+    <div id="feedback" class="feedback"></div>
+    <script src="script.js"></script>
 </body>
 </html> 
