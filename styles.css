@@ -352,6 +352,34 @@ button:hover {
     .board-container {
         margin: 0;
     }
+    
+    /* Ensure side-by-side layout in landscape mode on mobile */
+    @media (max-width: 767px) {
+        .landscape-mode .game-container {
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .board-container {
+            max-width: min(calc(100vh - 20px), 370px);
+            width: 50%;
+        }
+        
+        .side-panel {
+            width: 45%;
+            max-width: none;
+            height: min(calc(100vh - 20px), 370px);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .move-history {
+            flex: 1;
+            overflow-y: auto;
+        }
+    }
 }
 
 /* Turn indicator background colors */
