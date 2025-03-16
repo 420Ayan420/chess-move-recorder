@@ -3,41 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chess Move Recorder</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <title>Chess Recorder Demos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        h1 {
+            margin-bottom: 30px;
+            color: #333;
+            text-align: center;
+        }
+        
+        .demos-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            max-width: 1200px;
+            width: 100%;
+        }
+        
+        .demo-box {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            width: 300px;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #333;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .demo-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .demo-box h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            z-index: 2;
+        }
+        
+        .demo-box p {
+            text-align: center;
+            padding: 0 20px;
+            z-index: 2;
+        }
+        
+        .demo-box::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #3498db, #2ecc71, #f1c40f);
+        }
+        
+        .demo-box.demo1::before {
+            background: linear-gradient(90deg, #3498db, #2980b9);
+        }
+        
+        .demo-box.demo2::before {
+            background: linear-gradient(90deg, #2ecc71, #27ae60);
+        }
+        
+        .demo-box.demo3::before {
+            background: linear-gradient(90deg, #f1c40f, #f39c12);
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .demos-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .demo-box {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="container landscape-mode">
-        <div class="game-container">
-            <div class="board-container">
-                <div class="chessboard" id="chessboard"></div>
-                <div class="coordinates">
-                    <div class="files">
-                        <span>a</span><span>b</span><span>c</span><span>d</span>
-                        <span>e</span><span>f</span><span>g</span><span>h</span>
-                    </div>
-                    <div class="ranks">
-                        <span>8</span><span>7</span><span>6</span><span>5</span>
-                        <span>4</span><span>3</span><span>2</span><span>1</span>
-                    </div>
-                </div>
-                <svg class="arrows" id="arrows"></svg>
-            </div>
-            <div class="side-panel">
-                <div class="move-history">
-                    <h2>Move History</h2>
-                    <div class="moves" id="moves"></div>
-                </div>
-                <div class="controls">
-                    <button id="reset-btn">Reset Game</button>
-                    <button id="undo-btn">Undo Last Move</button>
-                    <button id="export-btn">Export Moves</button>
-                </div>
-            </div>
-        </div>
+    <h1>Chess Recorder Demos</h1>
+    
+    <div class="demos-container">
+        <a href="demo1/index.html" class="demo-box demo1">
+            <h2>Demo 1</h2>
+        </a>
+        
+        <a href="#" class="demo-box demo2">
+            <h2>Demo 2</h2>
+        </a>
+        
+        <a href="#" class="demo-box demo3">
+            <h2>Demo 3</h2>
+        </a>
     </div>
-    <div id="feedback" class="feedback"></div>
-    <script src="script.js"></script>
 </body>
 </html> 

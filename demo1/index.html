@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo 1 - Chess Move Recorder</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <style>
+        .back-button {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            padding: 8px 15px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            z-index: 100;
+            transition: background-color 0.3s;
+        }
+        
+        .back-button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <a href="../index.html" class="back-button">Back to Demos</a>
+    <div class="container landscape-mode">
+        <div class="game-container">
+            <div class="board-container">
+                <div class="chessboard" id="chessboard"></div>
+                <div class="coordinates">
+                    <div class="files">
+                        <span>a</span><span>b</span><span>c</span><span>d</span>
+                        <span>e</span><span>f</span><span>g</span><span>h</span>
+                    </div>
+                    <div class="ranks">
+                        <span>8</span><span>7</span><span>6</span><span>5</span>
+                        <span>4</span><span>3</span><span>2</span><span>1</span>
+                    </div>
+                </div>
+                <svg class="arrows" id="arrows"></svg>
+            </div>
+            <div class="side-panel">
+                <div class="move-history">
+                    <h2>Move History</h2>
+                    <div class="moves" id="moves"></div>
+                </div>
+                <div class="controls">
+                    <button id="reset-btn">Reset Game</button>
+                    <button id="undo-btn">Undo Last Move</button>
+                    <button id="export-btn">Export Moves</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="feedback" class="feedback"></div>
+    <script src="script.js"></script>
+</body>
+</html> 
